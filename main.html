@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ระบบจัดการลาหยุดงาน</title>
+    
+        <!-- CSS -->
+        <link rel="stylesheet" href="../css/main.css">
+    
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+    
+        <!-- JS module -->
+        <script type="module" src="../js/main.js"></script>
+    </head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Notification Bar -->
+    <div id="notificationBar" class="fixed top-0 left-0 right-0 z-50" style="display: none;">
+      <div class="bg-yellow-500 text-white px-4 py-3 text-center notification-alert">
+        <div class="flex items-center justify-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span id="notificationText"></span>
+          <button onclick="hideNotification()" class="ml-4 text-white hover:text-gray-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container mx-auto px-4 py-8 max-w-6xl"></div>
+    <!-- Header -->
+    <div class="text-center mb-8 relative">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">ระบบจัดการลาหยุดงาน</h1>
+        <p class="text-gray-600 mb-4">ระบบบริหารจัดการการลาหยุดงานแบบครบวงจร</p>
+     </div>
+    <!-- Navigation Tabs -->
+     <div id="navigationTabs" class="bg-white rounded-xl shadow-lg p-2 mb-8 flex space-x-2">
+        <br>
+        <br>
+        <button id="employeeTab" onclick="switchTab('employee')" class="flex-1 py-3 px-4 rounded-lg font-medium transition-colors bg-blue-600 text-white" >
+            พนักงาน
+        </button>
+        <button id="managerTab" onclick="location.href='manager_login.html'" class="flex-1 py-3 px-4 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" >
+            ผู้จัดการ
+        </button>
+        <button id="adminTab" onclick="location.href='admin_login.html'" class="flex-1 py-3 px-4 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100">
+            ผู้ดูแลระบบ
+        </button>
+        <br>
+      </div>
+      <!-- Employee Login -->
+      <div id="employeeLogin" class="bg-gradient-to-br from-white via-blue-50 to-indigo-100 rounded-2xl shadow-2xl p-8 mb-8 border border-blue-200">
+        <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full shadow-lg mb-4">
+                <span class="text-3xl text-white">👤</span>
+            </div>
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                    <br> เข้าสู่ระบบพนักงาน<br>
+                </h2>
+                    <br><p class="text-gray-600">เลือกชื่อของคุณเพื่อเข้าสู่ระบบ</p><br>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-inner border-2 border-blue-100">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <input type="hidden" id="employeeUsername" name="employeeUsername">
+                    <button onclick="selectEmployee('แม่เปิ้ล',event)" class="employee-btn bg-gradient-to-r from-pink-100 to-rose-100 hover:from-pink-200 hover:to-rose-200 border-2 border-pink-200 ">
+                        
+                            <span class="text-2xl mr-2">🍎</span>
+                            <span class="font-semibold text-pink-800">แม่เปิ้ล</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('น้าจอส',event)" class="employee-btn bg-gradient-to-r from-orange-100 to-amber-100 hover:from-orange-200 hover:to-amber-200 border-2 border-orange-200 ">
+                        
+                            <span class="text-2xl mr-2">🧡</span>
+                            <span class="font-semibold text-orange-800">น้าจอส</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('น้าปุ้ย',event)" class="employee-btn bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 border-2 border-green-200 ">
+                        
+                            <span class="text-2xl mr-2">🌿</span>
+                            <span class="font-semibold text-green-800">น้าปุ้ย</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('แน็ตตี้',event)" class="employee-btn bg-gradient-to-r from-purple-100 to-violet-100 hover:from-purple-200 hover:to-violet-200 border-2 border-purple-200 ">
+                        <span class="text-2xl mr-2">💜</span>
+                            <span class="font-semibold text-purple-800">แน็ตตี้</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('เกด',event)" class="employee-btn bg-gradient-to-r from-blue-100 to-cyan-100 hover:from-blue-200 hover:to-cyan-200 border-2 border-blue-200 ">
+                        
+                            <span class="text-2xl mr-2">💙</span>
+                            <span class="font-semibold text-blue-800">เกด</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('พี่เจ้ย',event)" class="employee-btn bg-gradient-to-r from-teal-100 to-cyan-100 hover:from-teal-200 hover:to-cyan-200 border-2 border-teal-200 ">
+                        
+                            <span class="text-2xl mr-2">🌊</span>
+                            <span class="font-semibold text-teal-800">พี่เจ้ย</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('ลูกศร',event)" class="employee-btn bg-gradient-to-r from-red-100 to-pink-100 hover:from-red-200 hover:to-pink-200 border-2 border-red-200 ">
+                        
+                            <span class="text-2xl mr-2">🏹</span>
+                            <span class="font-semibold text-red-800">ลูกศร</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('พี่ปู',event)" class="employee-btn bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 border-2 border-indigo-200 ">
+                        
+                            <span class="text-2xl mr-2">🦀</span>
+                            <span class="font-semibold text-indigo-800">พี่ปู</span>
+                        
+                    </button>
+                    <button onclick="selectEmployee('ป้าตุ้ม',event)" class="employee-btn bg-gradient-to-r from-yellow-100 to-orange-100 hover:from-yellow-200 hover:to-orange-200 border-2 border-yellow-200 ">
+                        <div class="flex items-center"
+                        <span class="text-2xl mr-2">🌻</span>
+                        <span class="font-semibold text-yellow-800">ป้าตุ้ม</span>
+                    
+                    </button>
+                    <button onclick="selectEmployee('พี่วัน',event)" class="employee-btn bg-gradient-to-r from-emerald-100 to-teal-100 hover:from-emerald-200 hover:to-teal-200 border-2 border-emerald-200 ">
+                        <span class="text-2xl mr-2">🌟</span>
+                        <span class="font-semibold text-emerald-800">พี่วัน</span>
+                    </button>
+                    <button onclick="selectEmployee('พี่หนูเล็ก',event)" class="employee-btn bg-gradient-to-r from-rose-100 to-pink-100 hover:from-rose-200 hover:to-pink-200 border-2 border-rose-200 ">
+                        <span class="text-2xl mr-2">🐭</span>
+                        <span class="font-semibold text-rose-800">พี่หนูเล็ก</span>
+                    </button>
+                    <button onclick="selectEmployee('โดนัท',event)" class="employee-btn bg-gradient-to-r from-amber-100 to-yellow-100 hover:from-amber-200 hover:to-yellow-200 border-2 border-amber-200 ">
+                        <span class="text-2xl mr-2">🍩</span>
+                        <span class="font-semibold text-amber-800">โดนัท</span>
+                    </button>
+                    <button onclick="selectEmployee('พี่ซัมเมอร์',event)" class="employee-btn bg-gradient-to-r from-sky-100 to-blue-100 hover:from-sky-200 hover:to-blue-200 border-2 border-sky-200 ">
+                        <span class="text-2xl mr-2">☀️</span>
+                        <span class="font-semibold text-sky-800">พี่ซัมเมอร์</span>
+                    </button>
+                </div>
+            </div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการลาหยุดงาน</title>
+    <link rel="stylesheet" href="../css/main.css">
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script type="module" src="../js/main.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen" >
+    <!-- Header -->
+    <div class="text-center mb-8 relative">
+        <h class="text-4xl font-bold text-gray-800 mb-2">ระบบจัดการลาหยุดงาน</h>
+        <p class="text-gray-600 mb-4">ระบบบริหารจัดการการลาหยุดงานแบบครบวงจร</p>
+     </div>
+    <!-- Employee Dashboard -->
+    <div id="employeeDashboard" class="space-y-6">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">แดชบอร์ดพนักงาน</h2>
+                <div class="flex items-center space-x-4">
+                    <span id="currentEmployee" class="text-gray-600"></span>
+                    <button onclick="location.href='main.html'" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
+                        ออกจากระบบ</button>
+                    </div>
+                </div>
+    <!-- Leave Balance -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="balance-card bg-gradient-to-br from-green-50 to-emerald-100 p-5 rounded-xl border-2 border-green-200 shadow-lg hover:shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-4xl emoji-float">🏖️</div>
+                <div class="text-green-600 font-bold text-xs bg-green-200 px-2 py-1 rounded-full">
+                    VACATION
+                </div>
+            </div>
+            <h3 class="font-semibold text-green-800 text-sm mb-2">
+                วันลาพักผ่อนคงเหลือ</h3><div class="flex items-center">
+                    <p class="text-3xl font-bold text-green-600" id="vacationBalance">
+                        15</p>
+                        <span class="text-green-500 ml-2 text-lg">วัน ✨</span>
+                    </div>
+                </div>
+                <div class="balance-card bg-gradient-to-br from-blue-50 to-sky-100 p-5 rounded-xl border-2 border-blue-200 shadow-lg hover:shadow-xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-4xl emoji-float" style="animation-delay: 0.5s">🤒</div>
+                        <div class="text-blue-600 font-bold text-xs bg-blue-200 px-2 py-1 rounded-full">SICK</div>
+                    </div>
+                    <h3 class="font-semibold text-blue-800 text-sm mb-2">วันลาป่วยคงเหลือ</h3>
+                    <div class="flex items-center">
+                        <p class="text-3xl font-bold text-blue-600" id="sickBalance">30</p>
+                        <span class="text-blue-500 ml-2 text-lg">วัน 💊</span>
+                    </div>
+                </div>
+                <div class="balance-card bg-gradient-to-br from-orange-50 to-amber-100 p-5 rounded-xl border-2 border-orange-200 shadow-lg hover:shadow-xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-4xl emoji-float" style="animation-delay: 1s">🎉</div>
+                        <div class="text-orange-600 font-bold text-xs bg-orange-200 px-2 py-1 rounded-full">ANNUAL</div>
+                    </div>
+                    <h3 class="font-semibold text-orange-800 text-sm mb-2">วันหยุดประจำปีคงเหลือ</h3>
+                    <div class="flex items-center">
+                        <p class="text-3xl font-bold text-orange-600" id="annualBalance">19</p>
+                        <span class="text-orange-500 ml-2 text-lg">วัน 🎊</span>
+                    </div>
+                </div>
+                <div class="balance-card bg-gradient-to-br from-purple-50 to-violet-100 p-5 rounded-xl border-2 border-purple-200 shadow-lg hover:shadow-xl">
+                    <div class="flex items-center justify-between mb-3"><div class="text-4xl emoji-float" style="animation-delay: 1.5s">⚡</div>
+                    <div class="text-purple-600 font-bold text-xs bg-purple-200 px-2 py-1 rounded-full">EXTRA</div>
+                </div>
+                <h3 class="font-semibold text-purple-800 text-sm mb-2">วันหยุดชดเชยคงเหลือ</h3>
+                <div class="flex items-center">
+                    <p class="text-3xl font-bold text-purple-600" id="compensatoryBalance">0</p>
+                    <span class="text-purple-500 ml-2 text-lg">วัน 🚀</span>
+                </div>
+            </div>
+        </div>
+              <!-- Leave Request Form -->
+              <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                <h3 class="text-lg font-semibold mb-4">ยื่นคำขอลาหยุดงาน</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">ประเภทการลา</label>
+                    <select id="leaveType" class="w-full px-4 py-3 border border-gray-300 rounded-lg" onchange="handleLeaveTypeChange()">
+                        <option value="vacation">ลาพักผ่อน</option><option value="sick">ลาป่วย</option>
+                        <option value="annual">วันหยุดประจำปี</option><option value="compensatory">วันหยุดชดเชย</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">จำนวนวัน</label>
+                    <input type="number" id="leaveDays" min="1" max="30" value="1" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มต้น</label>
+                    <input type="date" id="startDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-2">วันที่สิ้นสุด</label>
+                        <input type="date" id="endDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">เหตุผล</label>
+                    <textarea id="leaveReason" rows="3" placeholder="กรอกเหตุผลในการลา" class="w-full px-4 py-3 border border-gray-300 rounded-lg">
+
+                    </textarea>
+                </div>
+                <div id="medicalCertificateSection" class="mt-4" style="display: none;">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">อัพโหลดใบรับรองแพทย์</label>
+                    <div class="relative">
+                        <input type="file" id="medicalCertificate" accept="image/*,.pdf" class="hidden">
+                        <div onclick="document.getElementById('medicalCertificate').click()" class="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50 transition-colors">
+                            <div class="flex flex-col items-center"><svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-gray-600 font-medium">คลิกเพื่อเลือกไฟล์</p>
+                            <p class="text-sm text-gray-500 mt-1">หรือลากไฟล์มาวางที่นี่</p>
+                            <p class="text-xs text-gray-400 mt-2">รองรับไฟล์: JPG, PNG, PDF (ขนาดไม่เกิน 5MB)</p>
+                        </div>
+                    </div>
+                    <div id="filePreview" class="mt-2 hidden">
+                        <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                            <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span id="fileName" class="text-green-800 font-medium"></span>
+                            <button type="button" onclick="clearFile()" class="ml-auto text-red-600 hover:text-red-800">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="mt-4">
+                    <button onclick="submitLeaveRequest()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">ยื่นคำขอลา</button>
+                </div>
+            </div>
+               <!-- Action Buttons -->
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <button onclick="showCalendarModal()" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z">
+
+                            </path>
+                        </svg> ดูปฏิทินการลา
+                    </button>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <button onclick="showCompensatoryWorkModal()" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg> แจ้งมาทำงานในวันหยุด
+                    </button>
+                </div></div>
+              <!-- Compensatory Work Modal -->
+              <div id="compensatoryWorkModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;"><div class="bg-white rounded-xl p-6 w-full max-w-md mx-4"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-purple-800">แจ้งมาทำงานในวันหยุด</h3>
+                <button onclick="closeCompensatoryWorkModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มต้น</label>
+                <input type="date" id="compensatoryWorkStartDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg" onchange="calculateCompensatoryEndDate()">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">วันที่สิ้นสุด</label>
+                <input type="date" id="compensatoryWorkEndDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg" onchange="calculateCompensatoryDays()">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">จำนวนวัน</label>
+                <input type="number" id="compensatoryWorkDays" min="1" max="30" value="1" class="w-full px-4 py-3 border border-gray-300 rounded-lg" onchange="calculateCompensatoryEndDateFromDays()">
+            </div><div><label class="block text-sm font-medium text-gray-700 mb-2">เหตุผล/รายละเอียดงาน</label><textarea id="compensatoryWorkReason" rows="3" placeholder="กรอกเหตุผลหรือรายละเอียดงานที่ต้องมาทำ" class="w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea></div><div class="flex space-x-3"><button onclick="submitCompensatoryWorkRequest()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"> ยื่นคำขอ</button><button onclick="closeCompensatoryWorkModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg"> ยกเลิก</button></div></div></div></div>
+              <!-- Calendar Modal -->
+              <div id="calendarModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;"><div class="bg-white rounded-xl p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold">ปฏิทินการลา</h3><button onclick="closeCalendarModal()" class="text-gray-500 hover:text-gray-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="employeeCalendar" class="grid grid-cols-7 gap-2 text-center">
+                    <!-- Calendar will be generated here -->
+                </div>
+                <div class="mt-4 flex flex-wrap gap-4 text-sm">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-red-200 rounded mr-2"></div>
+                        วันที่ล็อค
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-200 rounded mr-2">
+                        </div>มีคนลา 1-2 คน</div><div class="flex items-center">
+                            <div class="w-4 h-4 bg-orange-300 rounded mr-2">
+                            </div>มีคนลา 3 คน (เต็ม)</div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-blue-200 rounded mr-2">
+
+                                </div>วันลาของคุณ</div></div></div></div>
+                <!-- Leave History -->
+                <div><h3 class="text-lg font-semibold mb-4">ประวัติการลา</h3>
+                    <div id="leaveHistory" class="space-y-3">
+                    <!-- Leave history will be populated here -->
+                  </div></div>
+              </div></div>
+</body>
+</html>
